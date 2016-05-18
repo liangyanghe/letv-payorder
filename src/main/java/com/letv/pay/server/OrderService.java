@@ -2,6 +2,7 @@ package com.letv.pay.server;
 
 import com.letv.pay.dao.OrderDao;
 import com.letv.pay.pojo.Order;
+import com.letv.pay.util.IDGenerator;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -16,7 +17,7 @@ public class OrderService {
     private OrderDao orderDao;
 
     public void addOrder(int userId, int price) {
-        String id = System.currentTimeMillis() + "";
+        String id = IDGenerator.genOrderId(userId);
         Order order = new Order();
         order.setId(id);
         order.setUserId(userId);

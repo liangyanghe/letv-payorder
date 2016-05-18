@@ -1,6 +1,7 @@
 package com.letv.pay.dao;
 
 import com.letv.pay.pojo.Order;
+import com.letv.pay.util.ShardUtil;
 import org.jfaster.mango.annotation.DB;
 import org.jfaster.mango.annotation.SQL;
 import org.jfaster.mango.annotation.ShardBy;
@@ -39,8 +40,8 @@ public interface OrderDao {
         public String getDataSourceName(Object shardParam, int type) {
             int num;
             if (type == TYPE_ID) {
-                String id = (String) shardParam;
-                num = getDataSourceNumById(id);
+                String orderId = (String) shardParam;
+                num = getDataSourceNumByOrderId(orderId);
             } else if (type == TYPE_USER_ID) {
                 int userId = (Integer) shardParam;
                 num = getDataSourceNumByUserId(userId);
@@ -50,12 +51,13 @@ public interface OrderDao {
             return "db" + num;
         }
 
-        private int getDataSourceNumById(String id) {
-            return Integer.valueOf(id.substring(1, 3)) % 8;
+        private int getDataSourceNumByOrderId(String orderId) {
+            String dbInfo = ShardUtil.getDBInfoByOrderId(orderId); // 从订单id中获得分库信息
+            return (Integer.valueOf(dbInfo) - 1) % 8 + 1; // 由于进行了分库信息冗余，当只有8台db时，需要 mod 8
         }
 
         private int getDataSourceNumByUserId(int userId) {
-            return (userId / 10) % 8;
+            return (userId / 10) % 8 + 1;
         }
 
     }
@@ -66,8 +68,9 @@ public interface OrderDao {
         public String getPartitionedTable(String table, Object shardParam, int type) {
             int num;
             if (type == TYPE_ID) {
-                String id = (String) shardParam;
-                num = Integer.valueOf(id.substring(3, 4));
+                String orderId = (String) shardParam;
+                String tableInfo = ShardUtil.getTableInfoByOrderId(orderId); // 从订单id中获得分表信息
+                num = Integer.valueOf(tableInfo);
             } else if (type == TYPE_USER_ID) {
                 int userId = (Integer) shardParam;
                 num = userId % 10;
