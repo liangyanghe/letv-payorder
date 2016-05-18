@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 扫描service -->
+    <context:component-scan base-package="com.letv.pay.server"/>
+
+    <!-- 扫描DAO -->
+    <bean class="org.jfaster.mango.plugin.spring.MangoDaoScanner">
+        <property name="packages">
+            <list>
+                <value>com.letv.pay.dao</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.jfaster.mango.operator.Mango" factory-method="newInstance">
+        <property name="dataSourceFactory">
+            <bean class="org.jfaster.mango.datasource.MultipleDataSourceFactory">
+                <property name="factories">
+                    <map>
+                        <entry key="db1" value-ref="db1Factory" />
+                        <entry key="db2" value-ref="db2Factory" />
+                        <entry key="db3" value-ref="db3Factory" />
+                        <entry key="db4" value-ref="db4Factory" />
+                        <entry key="db5" value-ref="db5Factory" />
+                        <entry key="db6" value-ref="db6Factory" />
+                        <entry key="db7" value-ref="db7Factory" />
+                        <entry key="db8" value-ref="db8Factory" />
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="db1Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource">
+            <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/db1" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="db2Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource">
+            <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/db2" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="db3Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource">
+            <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/db3" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="db4Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource">
+            <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/db4" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="db5Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource">
+            <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/db5" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="db6Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource">
+            <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/db6" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="db7Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource">
+            <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/db7" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="db8Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="dataSource">
+            <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/db8" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </bean>
+        </property>
+    </bean>
+
+</beans>
