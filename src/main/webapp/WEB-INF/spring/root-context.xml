@@ -24,7 +24,7 @@
 
     <bean class="org.jfaster.mango.operator.Mango" factory-method="newInstance">
         <property name="dataSourceFactory">
-            <bean class="org.jfaster.mango.datasource.MultipleDataSourceFactory">
+            <bean class="org.jfaster.mango.datasource.MultipleDatabaseDataSourceFactory">
                 <property name="factories">
                     <map>
                         <entry key="db1" value-ref="db1Factory" />

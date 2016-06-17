@@ -1,85 +1,59 @@
 package com.letv.pay.dao;
 
 import com.letv.pay.pojo.Order;
-import com.letv.pay.util.ShardUtil;
 import org.jfaster.mango.annotation.DB;
 import org.jfaster.mango.annotation.SQL;
-import org.jfaster.mango.annotation.ShardBy;
-import org.jfaster.mango.partition.DataSourceRouter;
-import org.jfaster.mango.partition.TablePartition;
+import org.jfaster.mango.annotation.Sharding;
+import org.jfaster.mango.annotation.ShardingBy;
+import org.jfaster.mango.sharding.ShardingStrategy;
 
 import java.util.List;
 
 /**
  * @author ash
  */
-@DB(
-        table = "t_order",
-        dataSourceRouter = OrderDao.OrderDataSourceRouter.class,
-        tablePartition = OrderDao.OrderTablePartition.class
-)
+@DB(table = "t_order")
 public interface OrderDao {
 
     final String COLUMNS = "id, user_id, price, status";
 
-    final int TYPE_ID = 0;
-    final int TYPE_USER_ID = 1;
-
     @SQL("insert into #table(" + COLUMNS + ") values(:id, :userId, :price, :status)")
-    void addOrder(@ShardBy(value = "id", type = TYPE_ID) Order order);
+    @Sharding(shardingStrategy = OrderIdShardingStrategy.class)
+    void addOrder(@ShardingBy("id") Order order);
 
     @SQL("select " + COLUMNS + " from #table where id = :1")
-    Order getOrderById(@ShardBy(type = TYPE_ID) String id);
+    @Sharding(shardingStrategy = OrderIdShardingStrategy.class)
+    Order getOrderById(@ShardingBy String id);
 
     @SQL("select " + COLUMNS + " from #table where userId = :1")
-    List<Order> getOrdersByUserId(@ShardBy(type = TYPE_USER_ID) int userId);
+    @Sharding(shardingStrategy = UserIdShardingStrategy.class)
+    List<Order> getOrdersByUserId(@ShardingBy int userId);
 
-    static class OrderDataSourceRouter implements DataSourceRouter {
+    static class OrderIdShardingStrategy implements ShardingStrategy<String, String> {
 
         @Override
-        public String getDataSourceName(Object shardParam, int type) {
-            int num;
-            if (type == TYPE_ID) {
-                String orderId = (String) shardParam;
-                num = getDataSourceNumByOrderId(orderId);
-            } else if (type == TYPE_USER_ID) {
-                int userId = (Integer) shardParam;
-                num = getDataSourceNumByUserId(userId);
-            } else {
-                throw new IllegalStateException();
-            }
-            return "db" + num;
+        public String getDatabase(String orderId) {
+            return "db" + orderId.substring(0, 1);
         }
 
-        private int getDataSourceNumByOrderId(String orderId) {
-            String dbInfo = ShardUtil.getDBInfoByOrderId(orderId); // 从订单id中获得分库信息
-            return (Integer.valueOf(dbInfo) - 1) % 8 + 1; // 由于进行了分库信息冗余，当只有8台db时，需要 mod 8
-        }
-
-        private int getDataSourceNumByUserId(int userId) {
-            return (userId / 10) % 8 + 1;
+        @Override
+        public String getTargetTable(String table, String orderId) {
+            return table + "_" + orderId.substring(1, 2);
         }
 
     }
 
-    static class OrderTablePartition implements TablePartition {
+    static class UserIdShardingStrategy implements ShardingStrategy<Integer, Integer> {
 
         @Override
-        public String getPartitionedTable(String table, Object shardParam, int type) {
-            int num;
-            if (type == TYPE_ID) {
-                String orderId = (String) shardParam;
-                String tableInfo = ShardUtil.getTableInfoByOrderId(orderId); // 从订单id中获得分表信息
-                num = Integer.valueOf(tableInfo);
-            } else if (type == TYPE_USER_ID) {
-                int userId = (Integer) shardParam;
-                num = userId % 10;
-            } else {
-                throw new IllegalStateException();
-            }
-            return table + "_" + num;
+        public String getDatabase(Integer userId) {
+            return "db" + ((userId / 10) % 8 + 1);
         }
 
+        @Override
+        public String getTargetTable(String table, Integer userId) {
+            return table + "_" + (userId % 10);
+        }
     }
 
 }
