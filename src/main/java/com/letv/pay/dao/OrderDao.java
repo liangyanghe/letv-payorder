@@ -25,7 +25,7 @@ public interface OrderDao {
     @Sharding(shardingStrategy = OrderIdShardingStrategy.class)
     Order getOrderById(@ShardingBy String id);
 
-    @SQL("select " + COLUMNS + " from #table where userId = :1")
+    @SQL("select " + COLUMNS + " from #table where user_id = :1")
     @Sharding(shardingStrategy = UserIdShardingStrategy.class)
     List<Order> getOrdersByUserId(@ShardingBy int userId);
 
