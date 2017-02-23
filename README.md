@@ -9,4 +9,4 @@
  * ``cd letv-payorder``
  * ``mysql -uroot -proot < t_order.sql``
  * ``mvn clean jetty:run``
- * 浏览器访问：``http://localhost:8080/``
+ * 浏览器访问：``localhost:8080``
