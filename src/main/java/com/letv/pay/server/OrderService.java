@@ -16,7 +16,7 @@ public class OrderService {
     @Resource
     private OrderDao orderDao;
 
-    public void addOrder(int userId, int price) {
+    public String addOrder(int userId, int price) {
         String id = IDGenerator.genOrderId(userId);
         Order order = new Order();
         order.setId(id);
@@ -24,6 +24,7 @@ public class OrderService {
         order.setPrice(price);
         order.setStatus(Order.STATUS_INIT);
         orderDao.addOrder(order);
+        return id;
     }
 
 }

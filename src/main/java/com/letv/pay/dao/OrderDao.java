@@ -29,11 +29,11 @@ public interface OrderDao {
     @Sharding(shardingStrategy = UserIdShardingStrategy.class)
     List<Order> getOrdersByUserId(@ShardingBy int userId);
 
-    static class OrderIdShardingStrategy implements ShardingStrategy<String, String> {
+    class OrderIdShardingStrategy implements ShardingStrategy<String, String> {
 
         @Override
-        public String getDatabase(String orderId) {
-            return "db" + orderId.substring(0, 1);
+        public String getDataSourceFactoryName(String orderId) {
+            return "dsf" + orderId.substring(0, 1);
         }
 
         @Override
@@ -43,11 +43,11 @@ public interface OrderDao {
 
     }
 
-    static class UserIdShardingStrategy implements ShardingStrategy<Integer, Integer> {
+    class UserIdShardingStrategy implements ShardingStrategy<Integer, Integer> {
 
         @Override
-        public String getDatabase(Integer userId) {
-            return "db" + ((userId / 10) % 8 + 1);
+        public String getDataSourceFactoryName(Integer userId) {
+            return "dsf" + ((userId / 10) % 8 + 1);
         }
 
         @Override

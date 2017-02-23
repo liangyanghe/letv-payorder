@@ -22,26 +22,24 @@
         </property>
     </bean>
 
+    <!-- 初始化mango对象 -->
     <bean class="org.jfaster.mango.operator.Mango" factory-method="newInstance">
-        <property name="dataSourceFactory">
-            <bean class="org.jfaster.mango.datasource.MultipleDatabaseDataSourceFactory">
-                <property name="factories">
-                    <map>
-                        <entry key="db1" value-ref="db1Factory" />
-                        <entry key="db2" value-ref="db2Factory" />
-                        <entry key="db3" value-ref="db3Factory" />
-                        <entry key="db4" value-ref="db4Factory" />
-                        <entry key="db5" value-ref="db5Factory" />
-                        <entry key="db6" value-ref="db6Factory" />
-                        <entry key="db7" value-ref="db7Factory" />
-                        <entry key="db8" value-ref="db8Factory" />
-                    </map>
-                </property>
-            </bean>
+        <property name="dataSourceFactories">
+            <list>
+                <ref bean="dsf1" />
+                <ref bean="dsf2" />
+                <ref bean="dsf3" />
+                <ref bean="dsf4" />
+                <ref bean="dsf5" />
+                <ref bean="dsf6" />
+                <ref bean="dsf7" />
+                <ref bean="dsf8" />
+            </list>
         </property>
     </bean>
 
-    <bean id="db1Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+    <bean id="dsf1" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="name" value="dsf1" />
         <property name="dataSource">
             <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -51,7 +49,8 @@
             </bean>
         </property>
     </bean>
-    <bean id="db2Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+    <bean id="dsf2" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="name" value="dsf2" />
         <property name="dataSource">
             <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -61,7 +60,8 @@
             </bean>
         </property>
     </bean>
-    <bean id="db3Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+    <bean id="dsf3" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="name" value="dsf3" />
         <property name="dataSource">
             <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -71,7 +71,8 @@
             </bean>
         </property>
     </bean>
-    <bean id="db4Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+    <bean id="dsf4" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="name" value="dsf4" />
         <property name="dataSource">
             <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -81,7 +82,8 @@
             </bean>
         </property>
     </bean>
-    <bean id="db5Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+    <bean id="dsf5" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="name" value="dsf5" />
         <property name="dataSource">
             <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -91,7 +93,8 @@
             </bean>
         </property>
     </bean>
-    <bean id="db6Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+    <bean id="dsf6" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="name" value="dsf6" />
         <property name="dataSource">
             <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -101,7 +104,8 @@
             </bean>
         </property>
     </bean>
-    <bean id="db7Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+    <bean id="dsf7" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="name" value="dsf7" />
         <property name="dataSource">
             <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -111,7 +115,8 @@
             </bean>
         </property>
     </bean>
-    <bean id="db8Factory" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+    <bean id="dsf8" class="org.jfaster.mango.datasource.SimpleDataSourceFactory">
+        <property name="name" value="dsf8" />
         <property name="dataSource">
             <bean class="org.jfaster.mango.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
